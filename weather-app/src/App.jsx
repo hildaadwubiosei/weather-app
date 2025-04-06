@@ -32,35 +32,67 @@ function App() {
   const getWeatherIcon = (weatherDescription) => {
     switch (weatherDescription.toLowerCase()) {
       case "clear sky":
-        return <WiDaySunny size={50} color="gold" />;
+        return <WiDaySunny size={150} color="gold" />;
       case "few clouds":
       case "scattered clouds":
       case "broken clouds":
-        return <WiCloud size={50} color="gray" />;
+        return <WiCloud size={150} color="gray" />;
       case "shower rain":
       case "rain":
-        return <WiRain size={50} color="blue" />;
+        return <WiRain size={150} color="blue" />;
       case "snow":
-        return <WiSnow size={50} color="white" />;
+        return <WiSnow size={150} color="white" />;
       default:
-        return <WiCloud size={50} color="gray" />;
+        return <WiCloud size={150} color="gray" />;
     }
   };
 
+  const getBackgroundStyle = (weatherType) => {
+    switch (weatherType) {
+      case "Clear":
+        return "linear-gradient(to right, #fceabb, #f8b500)";
+      case "Clouds":
+        return "linear-gradient(to right, #bdc3c7, #2c3e50)";
+      case "Rain":
+        return "linear-gradient(to right, #4b79a1, #283e51)";
+      case "Snow":
+        return "linear-gradient(to right, #e6dada, #274046)";
+      case "Thunderstorm":
+        return "linear-gradient(to right, #485563, #29323c)";
+      default:
+        return "linear-gradient(to right, #83a4d4, #b6fbff)";
+    }
+  };
+
+  const backgroundStyle = {
+    background: getBackgroundStyle(weather?.weather[0]?.main),
+    minHeight: "100vh",
+    width: "100%",
+    height: "100%",
+    margin: "0",
+    padding: "0",
+  };
+
+
+  
+  
+
   return (
-    <div className='App'>
-      <h1>Weather App</h1>
-      <input type="text" placeholder='Enter City' value={city} onChange={(e) => setCity(e.target.value)}/>
-      <button onClick={fetchWeather}>Get Weather</button>
+    <div className='container'>
+    <div style={backgroundStyle} className='App'>
+      <h1 className='Weather App'>Weather App</h1>
+      <input id="input" type="text" placeholder='Enter City' value={city} onChange={(e) => setCity(e.target.value)}/>
+      <button id="button" onClick={fetchWeather}>Get Weather</button>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {weather && (
         <div>
-          <h2>Weather in {weather.name}</h2>
-          {weather && weather.weather && getWeatherIcon(weather.weather[0].description)}
+          <h2 >Weather in {weather.name}</h2>
+          <p id='icon'>{weather && weather.weather && getWeatherIcon(weather.weather[0].description)}</p>
           <p>Temperature: {weather.main.temp}°C</p>
           <p>Condition: {weather.weather[0].description}</p>
         </div>
       )}
+    </div>
     </div>
   )
 }
