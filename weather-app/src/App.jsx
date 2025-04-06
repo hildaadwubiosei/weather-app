@@ -7,13 +7,16 @@ function App() {
   const [weather, setWeather] = useState(null); 
   const [error, setError] = useState(null);
 
+  const apiKey = import.meta.env.VITE_WEATHER_APP_API_KEY;
+
+
   const fetchWeather = async () => {
     if (!city) return; // Don't fetch if no weather is entered
     setError(null); // Reset before making new request
 
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=3f438548b3866d10f40db4c9f78ef1fb&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
       );
       if (!response.ok){
         throw new Error("City not found") // if API response is not okay show an error
